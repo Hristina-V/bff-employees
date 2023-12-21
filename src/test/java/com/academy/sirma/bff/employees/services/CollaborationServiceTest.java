@@ -1,9 +1,6 @@
 package com.academy.sirma.bff.employees.services;
 
-import com.academy.sirma.bff.employees.models.Assignment;
-import com.academy.sirma.bff.employees.models.CollaborationPerAssignment;
-import com.academy.sirma.bff.employees.models.CollaborativeWork;
-import com.academy.sirma.bff.employees.models.EmployeePair;
+import com.academy.sirma.bff.employees.models.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -35,11 +32,10 @@ public class CollaborationServiceTest {
         Map<EmployeePair, CollaborativeWork> expectedCollaborationsPerPair = new HashMap<>();
         expectedCollaborationsPerPair.put(
             new EmployeePair(1,5),
-            new CollaborativeWork(DAYS.between(a2.getStartDate(), a2.getEndDate()),
-            Arrays.asList(a2.getStartDate()))
+            new CollaborativeWork(Arrays.asList(
+                new CollaborationPerAssignment(1L, new CollaborationTimeFrame(LocalDate.of(2023,01,13), LocalDate.of(2023,02,22)))
+            ))
         );
-
-
     }
 
 }

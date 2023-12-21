@@ -4,13 +4,13 @@ import java.util.List;
 
 public class CollaborativeWork {
 
-    private long totalCollaborationDays;
-
     private List<CollaborationPerAssignment> collaborationPerAssignments;
 
-    public CollaborativeWork(long totalCollaborationDays, List<CollaborationPerAssignment> collaborationPerAssignments) {
-        this.totalCollaborationDays = totalCollaborationDays;
+    private long totalCollaborationDays;
+
+    public CollaborativeWork(List<CollaborationPerAssignment> collaborationPerAssignments) {
         this.collaborationPerAssignments = collaborationPerAssignments;
+        this.totalCollaborationDays = collaborationPerAssignments.stream().mapToLong(x -> x.getCollaborationTimeFrame().getDays()).sum();
     }
 
     public long getTotalCollaborationDays() {

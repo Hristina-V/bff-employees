@@ -1,5 +1,7 @@
 package com.academy.sirma.bff.employees.services;
 
+import com.academy.sirma.bff.employees.entities.CollaborationEntity;
+import com.academy.sirma.bff.employees.mappers.CollaborationMapper;
 import com.academy.sirma.bff.employees.models.Assignment;
 import com.academy.sirma.bff.employees.models.CollaborationPerAssignment;
 import com.academy.sirma.bff.employees.models.CollaborationTimeFrame;
@@ -9,12 +11,11 @@ import com.academy.sirma.bff.employees.services.csv.аssignments.AssignmentsCsvF
 import com.academy.sirma.bff.employees.services.helpers.CollaborationHelper;
 import com.academy.sirma.bff.employees.services.utils.AssignmentUtils;
 import com.academy.sirma.bff.employees.services.utils.LongUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CollaborationService {
@@ -23,10 +24,11 @@ public class CollaborationService {
 
     private final AssignmentsCsvFileReader assignmentsCsvFileReader;
 
-    private CollaborationHelper collaborationHelper;
+    private final CollaborationHelper collaborationHelper;
 
-    private LongUtils longUtils;
+    private final LongUtils longUtils;
 
+    @Autowired
     public CollaborationService(AssignmentUtils assignmentUtils,
                                 AssignmentsCsvFileReader assignmentsCsvFileReader,
                                 CollaborationHelper collaborationHelper,
@@ -75,7 +77,7 @@ public class CollaborationService {
                     } else {
                         CollaborationTimeFrame collaborationTimeFrame = CollaborationHelper.calculateCollaborationTimeFrame(firstEmployeeAssignment, secondEmployeeAssignment);
                         CollaborationPerAssignment collaborationPerAssignment = new CollaborationPerAssignment(firstEmployeeAssignment.getProjectId(), collaborationTimeFrame);
-                        CollaborativeWork collaborativeWork = new CollaborativeWork(collaborationTimeFrame.getDays(), Arrays.asList(collaborationPerAssignment));
+                        CollaborativeWork collaborativeWork = new CollaborativeWork(Arrays.asList(collaborationPerAssignment));
 
                         collaborationsPerPair.put(employeePair, collaborativeWork);
                     }
@@ -100,5 +102,30 @@ public class CollaborationService {
         }
 
         return targetPair;
+    }
+
+    public List<CollaborativeWork> findEmployeesWithMostCollaborationDays(Map<EmployeePair, CollaborativeWork> collaborations, int count) {
+        if(count < 1) {
+            //TODO handle in ExceptionHandler & map to HTTP status code 400 - Bad Request
+            throw new IllegalStateException("You need to provide a positive count");
+        }
+
+        if(collaborations.size() <= count) {
+            return collaborations
+                    .entrySet()
+                    .stream()
+                    .map(Map.Entry::getValue)
+                    .collect(Collectors.toList());
+        }
+
+        if(count == 1) {
+            //TODO Consider if we need a dedicate method for top 1 or we can reuse the new generic logic from this method.
+            EmployeePair targetPair = findEmployeesWithMostCollaborationDays(collaborations);
+            CollaborativeWork collaborativeWork = collaborations.get(targetPair);
+            return Arrays.asList(collaborativeWork);
+        }
+
+        //TODO implement logic
+        throw new RuntimeException();
     }
 }

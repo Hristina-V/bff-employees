@@ -1,11 +1,11 @@
 package com.academy.sirma.bff.employees.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity(name = "collaborations")
@@ -13,23 +13,27 @@ public class CollaborationEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
 
+    @Column(name = "smaller_employee_id")
     private long smallerEmployeeId;
 
+    @Column(name = "higher_employee_id")
     private long higherEmployeeId;
 
-    private long totalCollaborationDays;
-
-    @OneToMany
-    private Set<CollaborativeWorkEntity> collaborativeWorkEntity;
+    @OneToMany(mappedBy = "collaborationEntity", cascade = { CascadeType.ALL })
+    private List<CollaborativeWorkEntity> collaborativeWorkEntity;
 
     public CollaborationEntity() { }
 
-    public CollaborationEntity(long smallerEmployeeId, long higherEmployeeId, long totalCollaborationDays, Set<CollaborativeWorkEntity> collaborativeWorkEntity) {
+    public CollaborationEntity(long smallerEmployeeId, long higherEmployeeId) {
+        this(smallerEmployeeId, higherEmployeeId, null);
+    }
+
+    public CollaborationEntity(long smallerEmployeeId, long higherEmployeeId, List<CollaborativeWorkEntity> collaborativeWorkEntity) {
         this.smallerEmployeeId = smallerEmployeeId;
         this.higherEmployeeId = higherEmployeeId;
-        this.totalCollaborationDays = totalCollaborationDays;
         this.collaborativeWorkEntity = collaborativeWorkEntity;
     }
 
@@ -53,19 +57,11 @@ public class CollaborationEntity {
         this.higherEmployeeId = higherEmployeeId;
     }
 
-    public long getTotalCollaborationDays() {
-        return totalCollaborationDays;
-    }
-
-    public void setTotalCollaborationDays(long totalCollaborationDays) {
-        this.totalCollaborationDays = totalCollaborationDays;
-    }
-
-    public Set<CollaborativeWorkEntity> getCollaborativeWorkEntity() {
+    public List<CollaborativeWorkEntity> getCollaborativeWorkEntity() {
         return collaborativeWorkEntity;
     }
 
-    public void setCollaborativeWorkEntity(Set<CollaborativeWorkEntity> collaborativeWorkEntity) {
+    public void setCollaborativeWorkEntity(List<CollaborativeWorkEntity> collaborativeWorkEntity) {
         this.collaborativeWorkEntity = collaborativeWorkEntity;
     }
 }

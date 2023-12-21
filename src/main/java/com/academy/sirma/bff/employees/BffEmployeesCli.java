@@ -2,7 +2,6 @@ package com.academy.sirma.bff.employees;
 
 import com.academy.sirma.bff.employees.models.CollaborativeWork;
 import com.academy.sirma.bff.employees.models.EmployeePair;
-import com.academy.sirma.bff.employees.services.AssignmentService;
 import com.academy.sirma.bff.employees.services.CollaborationService;
 import com.academy.sirma.bff.employees.services.csv.аssignments.AssignmentsCsvFileReader;
 import com.academy.sirma.bff.employees.services.helpers.CollaborationHelper;

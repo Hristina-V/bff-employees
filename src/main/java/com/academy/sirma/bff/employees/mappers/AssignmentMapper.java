@@ -1,6 +1,7 @@
 package com.academy.sirma.bff.employees.mappers;
 
 import com.academy.sirma.bff.employees.entities.AssignmentEntity;
+import com.academy.sirma.bff.employees.entities.CollaborationEntity;
 import com.academy.sirma.bff.employees.models.Assignment;
 import org.springframework.stereotype.Component;
 

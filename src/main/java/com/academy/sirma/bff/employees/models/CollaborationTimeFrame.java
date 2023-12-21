@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-public class  CollaborationTimeFrame {
+public class CollaborationTimeFrame {
     private LocalDate startDate;
 
     private LocalDate endDate;
