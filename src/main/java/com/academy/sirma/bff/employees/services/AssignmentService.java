@@ -4,7 +4,6 @@ import com.academy.sirma.bff.employees.entities.AssignmentEntity;
 import com.academy.sirma.bff.employees.mappers.AssignmentMapper;
 import com.academy.sirma.bff.employees.models.Assignment;
 import com.academy.sirma.bff.employees.repositories.AssignmentRepository;
-import com.academy.sirma.bff.employees.repositories.CollaborationRepository;
 import com.academy.sirma.bff.employees.services.csv.аssignments.AssignmentsCsvFileReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

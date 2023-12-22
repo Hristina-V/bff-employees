@@ -8,7 +8,6 @@ import com.academy.sirma.bff.employees.services.AssignmentService;
 import com.academy.sirma.bff.employees.services.CollaborationAggregatorService;
 import com.academy.sirma.bff.employees.services.CollaborationCrudService;
 import com.academy.sirma.bff.employees.services.CollaborationService;
-import jdk.jshell.spi.ExecutionControl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

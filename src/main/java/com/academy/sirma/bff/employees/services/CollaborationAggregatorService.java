@@ -1,13 +1,11 @@
 package com.academy.sirma.bff.employees.services;
 
-import com.academy.sirma.bff.employees.entities.CollaborationEntity;
 import com.academy.sirma.bff.employees.mappers.CollaborationMapper;
-import com.academy.sirma.bff.employees.models.*;
-import com.academy.sirma.bff.employees.repositories.CollaborationRepository;
+import com.academy.sirma.bff.employees.models.CollaborativeWork;
+import com.academy.sirma.bff.employees.models.EmployeePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 @Service

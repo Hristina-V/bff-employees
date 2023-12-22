@@ -4,13 +4,7 @@ import com.academy.sirma.bff.employees.models.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static java.time.temporal.ChronoUnit.DAYS;
+import java.util.*;
 
 public class CollaborationServiceTest {
 

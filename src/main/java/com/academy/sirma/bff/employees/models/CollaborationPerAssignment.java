@@ -1,7 +1,5 @@
 package com.academy.sirma.bff.employees.models;
 
-import java.time.LocalDate;
-
 public class CollaborationPerAssignment {
     private Long projectId;
 

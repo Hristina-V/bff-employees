@@ -1,5 +1,7 @@
 package com.academy.sirma.bff.employees;
 
+import com.academy.sirma.bff.employees.models.CollaborationPerAssignment;
+import com.academy.sirma.bff.employees.models.CollaborationTimeFrame;
 import com.academy.sirma.bff.employees.models.CollaborativeWork;
 import com.academy.sirma.bff.employees.models.EmployeePair;
 import com.academy.sirma.bff.employees.services.CollaborationService;
@@ -11,6 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Component
 public class BffEmployeesCli {
@@ -26,12 +30,22 @@ public class BffEmployeesCli {
         EmployeePair targetPair = collaborationService.findEmployeesWithMostCollaborationDays(collaborations);
         CollaborativeWork collaborativeWork = collaborations.get(targetPair);
 
-        //TODO Align with the required output
+        printResult(targetPair, collaborativeWork);
+    }
+
+    private static void printResult(EmployeePair targetPair, CollaborativeWork collaborativeWork) {
         System.out.println(
-            "Employee: " + targetPair.getSmallerEmployeeId()
-            + " and Employee: " + targetPair.getHigherEmployeeId() +
-            " worked the most together with a total of " + collaborativeWork.getTotalCollaborationDays() + " days."
+                targetPair.getSmallerEmployeeId() + ", "
+                        + targetPair.getHigherEmployeeId() + ", "
+                        + collaborativeWork.getTotalCollaborationDays()
         );
+
+        for (CollaborationPerAssignment collaboration : collaborativeWork.getCollaborationPerAssignments()) {
+            CollaborationTimeFrame timeFrame = collaboration.getCollaborationTimeFrame();
+            long totalDaysPerProject = DAYS.between(timeFrame.getStartDate(), timeFrame.getEndDate());
+
+            System.out.println(collaboration.getProjectId() + ", " + totalDaysPerProject);
+        }
     }
 
     @Bean

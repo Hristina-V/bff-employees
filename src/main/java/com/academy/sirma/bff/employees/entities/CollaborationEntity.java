@@ -1,12 +1,8 @@
 package com.academy.sirma.bff.employees.entities;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity(name = "collaborations")
 public class CollaborationEntity {
