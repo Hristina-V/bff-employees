@@ -1,6 +1,7 @@
 package com.academy.sirma.bff.employees.services;
 
 import com.academy.sirma.bff.employees.entities.AssignmentEntity;
+import com.academy.sirma.bff.employees.exceptions.ParseFIleException;
 import com.academy.sirma.bff.employees.mappers.AssignmentMapper;
 import com.academy.sirma.bff.employees.models.Assignment;
 import com.academy.sirma.bff.employees.repositories.AssignmentRepository;
@@ -37,8 +38,7 @@ public class AssignmentService {
             List<AssignmentEntity> entities = assignmentMapper.toListOfEntities(assignments);
             assignmentRepository.saveAll(entities);
         } catch (IOException e) {
-            // TODO add proper handling
-            throw new RuntimeException(e);
+            throw new ParseFIleException(e);
         }
     }
 

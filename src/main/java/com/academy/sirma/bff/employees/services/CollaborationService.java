@@ -120,7 +120,6 @@ public class CollaborationService {
 
     private void validateCount(int count) {
         if(count < 1) {
-            //TODO handle in ExceptionHandler & map to HTTP status code 400 - Bad Request
             throw new IllegalStateException("You need to provide a positive count");
         }
     }

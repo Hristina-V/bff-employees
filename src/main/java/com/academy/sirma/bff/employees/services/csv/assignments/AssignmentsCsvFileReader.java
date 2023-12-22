@@ -22,7 +22,14 @@ public class AssignmentsCsvFileReader extends CsvFileReader<Assignment> {
         long employeeId = parseLong(valuesAsString[0]);
         long projectId = parseLong(valuesAsString[1]);
         LocalDate startDate = DateParser.parseLocalDate(valuesAsString[2]);
-        LocalDate endDate = DateParser.parseLocalDate(valuesAsString[3]);
+
+        String endDateString = valuesAsString[3];
+        LocalDate endDate;
+        if("NULL".equalsIgnoreCase(endDateString)) {
+            endDate = null;
+        } else {
+            endDate = DateParser.parseLocalDate(valuesAsString[3]);
+        }
 
         return new Assignment(employeeId, projectId, startDate, endDate);
     }
@@ -31,8 +38,7 @@ public class AssignmentsCsvFileReader extends CsvFileReader<Assignment> {
         try {
             return Long.parseLong(valuesAsString);
         } catch (NumberFormatException nfe) {
-            //TODO maybe use some custom exception
-            throw new RuntimeException("Invalid Employee ID provided: " + valuesAsString);
+            throw new IllegalArgumentException("Invalid Employee ID provided: " + valuesAsString);
         }
     }
 }

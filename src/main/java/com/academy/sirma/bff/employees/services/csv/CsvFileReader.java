@@ -1,5 +1,8 @@
 package com.academy.sirma.bff.employees.services.csv;
 
+import com.academy.sirma.bff.employees.exceptions.ParseFIleException;
+import com.academy.sirma.bff.employees.exceptions.UnsupportedFileEncodingException;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +31,7 @@ public abstract class CsvFileReader<T> extends FileReader {
         try (BufferedReader in = new BufferedReader(new java.io.FileReader(fileName))) {
             return readFromFile(in);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ParseFIleException(e);
         }
     }
 
@@ -36,9 +39,9 @@ public abstract class CsvFileReader<T> extends FileReader {
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"))) {
             return readFromFile(fileReader);
         } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+            throw new UnsupportedFileEncodingException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ParseFIleException(e);
         }
     }
 
