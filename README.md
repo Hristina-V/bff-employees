@@ -3,17 +3,28 @@
 ## Overview
 
 BFF Employees is an application that is able to present the pair of employees that worked together for the most time.
-It's intention is to be used as a final project for Sirma Academy.
+Its intention is to be used as a final project for Sirma Academy.
 
 ## APIs
 
 ### Console application
+The project  provides a console application which is run through the "BffEmployeesCli".
+It reads the CSV file [employees_assignments.csv](./data/csv/employees_assignments.csv) and outputs the pair of employees with most collaborative work. 
+It's a single process that's doing the magic.
 
 ### REST API
+The project exposes REST API that consists of three end points which need to be invoked sequentially.
 
 Endpoints:
 
-* Load a file  
+1. Upload a file  `/employees-assignments/upload` - this endpoint executes the following steps:
+
+  * reads a CSV file and parses it to a list of assignments;
+  * maps the assignments to assignment entities;
+  * saves the list of entities to the database;
+
+3. Aggregate the data `/employees-assignments/aggregate` - the purpose of this endpoint is to find all possible collaborations by employee pair based on the uploaded data and save it to the database
+4. Get top N collaborations `/employees-collaborations/top/{n}` - this endpoint returns the top number of collaborations by total collaboration days, as specified by the user
 
 ## Local application setup
 
@@ -64,11 +75,13 @@ Endpoints:
    ```
    CREATE SEQUENCE collaborative_work_seq START 1;
    ```
+4. Run `BffEmployeesApplication`
+5. Install & Open Postman
+6. Import collection from [APP Postman directory](./postman/BFF%20Employees.postman_collection.json)
+7. Enjoy this app
 
-## Future enhancements
+## Possible future enhancements
 
-* Introduce a correlation id that will application to maintain a broad set of different files
-
-## TODO - To be deleted before submission
-
-
+* Introduce a unique id that will allow the application to maintain multiple subsequent files.
+* Increase test coverage.
+* Introduce the possibility for showing the project with most collaborations.

@@ -1,6 +1,7 @@
 package com.academy.sirma.bff.employees.controllers;
 
 import com.academy.sirma.bff.employees.models.Assignment;
+import com.academy.sirma.bff.employees.models.CollaborationWrapper;
 import com.academy.sirma.bff.employees.models.CollaborativeWork;
 import com.academy.sirma.bff.employees.models.EmployeePair;
 import com.academy.sirma.bff.employees.services.AssignmentService;
@@ -54,9 +55,9 @@ public class AssignmentsController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/employees-assignments/top/{n}")
-    public List<CollaborativeWork> getTopNCollaborativeEmployees(@PathVariable int n) {
-        Map<EmployeePair, CollaborativeWork> collaborations = collaborationCrudService.findAllCollaborations();
+    @GetMapping("/employees-collaborations/top/{n}")
+    public List<CollaborationWrapper> getTopNCollaborativeEmployees(@PathVariable int n) {
+        List<CollaborationWrapper> collaborations = collaborationCrudService.findAllCollaborations();
 
         return collaborationService.findEmployeesWithMostCollaborationDays(collaborations, n);
     }

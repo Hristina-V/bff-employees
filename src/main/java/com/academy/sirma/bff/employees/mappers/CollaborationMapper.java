@@ -2,10 +2,7 @@ package com.academy.sirma.bff.employees.mappers;
 
 import com.academy.sirma.bff.employees.entities.CollaborationEntity;
 import com.academy.sirma.bff.employees.entities.CollaborativeWorkEntity;
-import com.academy.sirma.bff.employees.models.CollaborationPerAssignment;
-import com.academy.sirma.bff.employees.models.CollaborationTimeFrame;
-import com.academy.sirma.bff.employees.models.CollaborativeWork;
-import com.academy.sirma.bff.employees.models.EmployeePair;
+import com.academy.sirma.bff.employees.models.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -70,5 +67,16 @@ public class CollaborationMapper {
     public CollaborationPerAssignment toCollaborationPerAssignment(CollaborativeWorkEntity collaborativeWorkEntity) {
         CollaborationTimeFrame collaborationTimeFrame = new CollaborationTimeFrame(collaborativeWorkEntity.getStartDate(), collaborativeWorkEntity.getEndDate());
         return new CollaborationPerAssignment(collaborativeWorkEntity.getProjectId(),collaborationTimeFrame);
+    }
+
+    public List<CollaborationWrapper> toListOfCollaborationWrapper(List<CollaborationEntity> collaborationEntities) {
+        return collaborationEntities.stream().map(this::toCollaborationWrapper).collect(Collectors.toList());
+    }
+
+    public CollaborationWrapper toCollaborationWrapper(CollaborationEntity collaborationEntity) {
+        EmployeePair employeePair = new EmployeePair(collaborationEntity.getSmallerEmployeeId(), collaborationEntity.getHigherEmployeeId());
+        CollaborativeWork collaborativeWork = new CollaborativeWork(toListOfCollaborationPerAssignment(collaborationEntity.getCollaborativeWorkEntity()));
+
+        return new CollaborationWrapper(employeePair, collaborativeWork);
     }
 }

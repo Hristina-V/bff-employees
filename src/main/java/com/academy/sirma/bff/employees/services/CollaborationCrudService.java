@@ -2,6 +2,7 @@ package com.academy.sirma.bff.employees.services;
 
 import com.academy.sirma.bff.employees.entities.CollaborationEntity;
 import com.academy.sirma.bff.employees.mappers.CollaborationMapper;
+import com.academy.sirma.bff.employees.models.CollaborationWrapper;
 import com.academy.sirma.bff.employees.models.CollaborativeWork;
 import com.academy.sirma.bff.employees.models.EmployeePair;
 import com.academy.sirma.bff.employees.repositories.CollaborationRepository;
@@ -34,10 +35,10 @@ public class CollaborationCrudService {
         return collaborationRepository.saveAll(entitiesToBeSaved);
     }
 
-    public Map<EmployeePair, CollaborativeWork> findAllCollaborations() {
+    public List<CollaborationWrapper> findAllCollaborations() {
         List<CollaborationEntity> collaborationEntities = collaborationRepository.findAll();
 
-        Map<EmployeePair, CollaborativeWork> collaborations = collaborationMapper.toCollaborationsMap(collaborationEntities);
+        List<CollaborationWrapper> collaborations = collaborationMapper.toListOfCollaborationWrapper(collaborationEntities);
 
         return collaborations;
     }

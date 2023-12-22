@@ -2,11 +2,7 @@ package com.academy.sirma.bff.employees.services;
 
 import com.academy.sirma.bff.employees.entities.CollaborationEntity;
 import com.academy.sirma.bff.employees.mappers.CollaborationMapper;
-import com.academy.sirma.bff.employees.models.Assignment;
-import com.academy.sirma.bff.employees.models.CollaborationPerAssignment;
-import com.academy.sirma.bff.employees.models.CollaborationTimeFrame;
-import com.academy.sirma.bff.employees.models.CollaborativeWork;
-import com.academy.sirma.bff.employees.models.EmployeePair;
+import com.academy.sirma.bff.employees.models.*;
 import com.academy.sirma.bff.employees.services.csv.аssignments.AssignmentsCsvFileReader;
 import com.academy.sirma.bff.employees.services.helpers.CollaborationHelper;
 import com.academy.sirma.bff.employees.services.utils.AssignmentUtils;
@@ -104,28 +100,27 @@ public class CollaborationService {
         return targetPair;
     }
 
-    public List<CollaborativeWork> findEmployeesWithMostCollaborationDays(Map<EmployeePair, CollaborativeWork> collaborations, int count) {
+    public List<CollaborationWrapper> findEmployeesWithMostCollaborationDays(List<CollaborationWrapper> collaborations, int count) {
+        validateCount(count);
+
+        List<CollaborationWrapper> sorted = collaborations
+            .stream()
+            .sorted((e1, e2) ->
+                Long.compare(e2.getCollaborativeWork().getTotalCollaborationDays(), e1.getCollaborativeWork().getTotalCollaborationDays())
+            )
+            .collect(Collectors.toList());
+
+        if(count >= collaborations.size()) {
+            return sorted;
+        }
+
+        return sorted.subList(0, count);
+    }
+
+    private void validateCount(int count) {
         if(count < 1) {
             //TODO handle in ExceptionHandler & map to HTTP status code 400 - Bad Request
             throw new IllegalStateException("You need to provide a positive count");
         }
-
-        if(collaborations.size() <= count) {
-            return collaborations
-                    .entrySet()
-                    .stream()
-                    .map(Map.Entry::getValue)
-                    .collect(Collectors.toList());
-        }
-
-        if(count == 1) {
-            //TODO Consider if we need a dedicate method for top 1 or we can reuse the new generic logic from this method.
-            EmployeePair targetPair = findEmployeesWithMostCollaborationDays(collaborations);
-            CollaborativeWork collaborativeWork = collaborations.get(targetPair);
-            return Arrays.asList(collaborativeWork);
-        }
-
-        //TODO implement logic
-        throw new RuntimeException();
     }
 }
