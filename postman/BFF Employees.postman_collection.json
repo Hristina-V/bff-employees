@@ -41,13 +41,13 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/employees-assignments/aggregate",
+					"raw": "localhost:8080/employees-collaborations/aggregate",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"employees-assignments",
+						"employees-collaborations",
 						"aggregate"
 					]
 				}
@@ -66,9 +66,67 @@
 					],
 					"port": "8080",
 					"path": [
-						"employees-assignments",
+						"employees-collaborations",
 						"top",
 						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch all assignments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/employees-assignments",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees-assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch all assignments by employee ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/employees-assignments/employees/123",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees-assignments",
+						"employees",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch all assignments by project ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/employees-assignments/projects/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees-assignments",
+						"projects",
+						"1"
 					]
 				}
 			},

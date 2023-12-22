@@ -13,6 +13,8 @@ It reads the CSV file [employees_assignments.csv](./data/csv/employees_assignmen
 It's a single process that's doing the magic.
 
 ### REST API
+
+#### Main Flow
 The project exposes REST API that consists of three end points which need to be invoked sequentially.
 
 Endpoints:
@@ -23,8 +25,16 @@ Endpoints:
   * maps the assignments to assignment entities;
   * saves the list of entities to the database;
 
-3. Aggregate the data `/employees-assignments/aggregate` - the purpose of this endpoint is to find all possible collaborations by employee pair based on the uploaded data and save it to the database
+3. Aggregate the data `/employees-collaborations/aggregate` - the purpose of this endpoint is to find all possible collaborations by employee pair based on the uploaded data and save it to the database
 4. Get top N collaborations `/employees-collaborations/top/{n}` - this endpoint returns the top number of collaborations by total collaboration days, as specified by the user
+
+#### Additional operations
+The project also exposes the following additional end points:
+
+* Find all assignments `/employees-assignments` - returns all assignments
+* Find all assignments by Employee ID `/employees-assignments/employees/{employeeId}` - returns all assignments for a specific employee
+* Find all assignments by Project ID `/employees-assignments/projects/{projectId}` - returns all assignments for a specific project
+
 
 ## Local application setup
 

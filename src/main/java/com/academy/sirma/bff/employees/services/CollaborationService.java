@@ -57,12 +57,14 @@ public class CollaborationService {
 
                 boolean isCollaboration = collaborationHelper.isCollaboration(firstEmployeeAssignment, secondEmployeeAssignment);
 
+                // We create the employee pairs from smaller to larger IDs, in order to avoid duplication due to order
                 if(isCollaboration) {
                     EmployeePair employeePair = new EmployeePair(
                         longUtils.getSmaller(firstEmployeeAssignment.getEmployeeId(), secondEmployeeAssignment.getEmployeeId()),
                         longUtils.getBigger(firstEmployeeAssignment.getEmployeeId(), secondEmployeeAssignment.getEmployeeId())
                     );
 
+                    // If the employee pair already exists, we only add a new collaboration, if not, we create a new pair
                     if(collaborationsPerPair.containsKey(employeePair)) {
                         long projectId = firstEmployeeAssignment.getProjectId();
                         CollaborationTimeFrame collaborationTimeFrame = CollaborationHelper.calculateCollaborationTimeFrame(firstEmployeeAssignment, secondEmployeeAssignment);

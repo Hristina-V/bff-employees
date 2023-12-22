@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AssignmentService {
@@ -44,6 +45,23 @@ public class AssignmentService {
 
     public List<Assignment> findAll() {
         List<AssignmentEntity> entities = assignmentRepository.findAll();
+        return assignmentMapper.toListOfAssignments(entities);
+    }
+
+    public Assignment save(Assignment assignment) {
+        AssignmentEntity assignmentEntity = assignmentMapper.toEntity(assignment);
+        AssignmentEntity saved = assignmentRepository.save(assignmentEntity);
+
+        return assignmentMapper.toAssignment(saved);
+    }
+
+    public List<Assignment> findByEmployee(long employeeId) {
+        List<AssignmentEntity> entities = assignmentRepository.findAllByEmployeeId(employeeId);
+        return assignmentMapper.toListOfAssignments(entities);
+    }
+
+    public List<Assignment> findByProject(long projectId) {
+        List<AssignmentEntity> entities = assignmentRepository.findAllByProjectId(projectId);
         return assignmentMapper.toListOfAssignments(entities);
     }
 }

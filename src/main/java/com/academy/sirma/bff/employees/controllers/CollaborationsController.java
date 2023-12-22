@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class AssignmentsController {
+public class CollaborationsController {
 
     private final AssignmentService assignmentService;
 
@@ -29,41 +29,29 @@ public class AssignmentsController {
     private final CollaborationCrudService collaborationCrudService;
 
     @Autowired
-    public AssignmentsController(CollaborationService collaborationService,
-                                 AssignmentService assignmentService,
-                                 CollaborationAggregatorService collaborationAggregatorService,
-                                 CollaborationCrudService collaborationCrudService) {
+    public CollaborationsController(CollaborationService collaborationService,
+                                    AssignmentService assignmentService,
+                                    CollaborationAggregatorService collaborationAggregatorService,
+                                    CollaborationCrudService collaborationCrudService) {
         this.collaborationService = collaborationService;
         this.assignmentService = assignmentService;
         this.collaborationAggregatorService = collaborationAggregatorService;
         this.collaborationCrudService = collaborationCrudService;
     }
 
-    @PostMapping("/employees-assignments/upload")
-    public ResponseEntity<Void> uploadFile(@RequestParam("file") MultipartFile file) {
-        assignmentService.save(file);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    @PostMapping("/employees-collaborations/aggregate")
+    public ResponseEntity<Void> aggregate() {
+        List<Assignment> assignments = assignmentService.findAll();
+        Map<EmployeePair, CollaborativeWork> collaborations = collaborationService.findCollaborations(assignments);
+        collaborationAggregatorService.aggregate(collaborations);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/employees-assignments")
-    public List<Assignment> findAll() {
-        return assignmentService.findAll();
-    }
-    @PostMapping("/employees-assignments")
-    public ResponseEntity<Assignment> create(@RequestBody Assignment assignment) {
-        Assignment saved = assignmentService.save(assignment);
+    @GetMapping("/employees-collaborations/top/{n}")
+    public List<CollaborationWrapper> getTopNCollaborativeEmployees(@PathVariable int n) {
+        List<CollaborationWrapper> collaborations = collaborationCrudService.findAllCollaborations();
 
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+        return collaborationService.findEmployeesWithMostCollaborationDays(collaborations, n);
     }
-
-    @GetMapping("/employees-assignments/employees/{employeeId}")
-    public List<Assignment> findByEmployee(@PathVariable long employeeId) {
-        return assignmentService.findByEmployee(employeeId);
-    }
-
-    @GetMapping("/employees-assignments/projects/{projectId}")
-    public List<Assignment> findByProject(@PathVariable long projectId) {
-        return assignmentService.findByProject(projectId);
-    }
-
 }
